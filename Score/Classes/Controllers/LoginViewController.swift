@@ -66,13 +66,15 @@ class LoginViewController: UIViewController {
     // 查询按钮点击
     @IBAction func queryButtonClick(sender: AnyObject) {
         
-        if self.activity.isAnimating() {
-            
-            return;
-        }
-        print("click")
+//        if self.activity.isAnimating() {
+//            
+//            return;
+//        }
+//        print("click")
         
-        self.activity.startAnimating()
+//        self.activity.startAnimating()
+        
+        LZWProgressHUD.showProgressHUD()
         
         self.queryButton.center.x -= 30
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: .AllowUserInteraction, animations: { _ in
@@ -132,20 +134,28 @@ class LoginViewController: UIViewController {
         
         // APIURL      : http://10.73.41.68:8080/Json/servlet/ReturnZjp
         // ARIURL_TEST : http://10.73.40.128:3000
-        Alamofire.request(.POST, APIURL_TEST, parameters: params).responseJSON { response in
+        Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
             
-            self.activity.stopAnimating()
+//            self.activity.stopAnimating()
+            
+            print(response)
             
             if response.result.error != nil {
                 
                 self.showWarning("获取信息出错！")
                 
                 return
-            }else {
+            }else if response.result.value?.objectForKey("status") as! NSInteger == NSInteger(200) {
+                
+                LZWProgressHUD.hideHUD()
                 
                 let scoreModel = ScoreModel(model: response.result.value!)
                 
                 self.performSegueWithIdentifier("showItems", sender: scoreModel)
+                
+            }else {
+                
+                self.showWarning((response.result.value?.objectForKey("body"))! as! String)
             }
         }
 
@@ -155,6 +165,7 @@ class LoginViewController: UIViewController {
     // 显示出错信息
     func showWarning(message: String) {
         
+        LZWProgressHUD.hideHUD()
         
         self.warningMessage.text = message
         

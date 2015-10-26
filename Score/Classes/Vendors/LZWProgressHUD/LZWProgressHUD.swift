@@ -20,7 +20,7 @@ class LZWProgressHUD: UIView {
     // Bubble
     let bubbleCount: NSInteger = 8
     let bubbleDelay: CGFloat = 0.1
-    let bubbleColor: UIColor = UIColor.blackColor()
+    let bubbleColor: UIColor = UIColor.whiteColor()
     let bubbleRadius: CGFloat = 3
     
     // HUD
@@ -117,7 +117,7 @@ class LZWProgressHUD: UIView {
     private func show() {
         
         let bgView = UIView()
-        bgView.center = self.center
+        bgView.center = CGPointMake(self.center.x, self.center.y + 50)
         bgView.frame.size = CGSizeMake(90, 40)
         bgView.backgroundColor = UIColor.clearColor()
         
@@ -168,16 +168,21 @@ class LZWProgressHUD: UIView {
         moveAnimate.fillMode = kCAFillModeRemoved
         moveAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
-        let alphaAnimate = CABasicAnimation(keyPath: "alpha")
-        alphaAnimate.fromValue = 0
-        alphaAnimate.toValue = 1
-        alphaAnimate.byValue = 0.1
+        let alphaAnimate = CAKeyframeAnimation(keyPath: "opacity")
+        alphaAnimate.values = NSArray(objects: 0.5, 1, 0.5) as [AnyObject]
+//        alphaAnimate.duration = Double(HUDduration * 1.7)
         alphaAnimate.removedOnCompletion = false
         alphaAnimate.fillMode = kCAFillModeRemoved
         alphaAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
+        let scaleAnimate = CAKeyframeAnimation(keyPath: "transform.scale")
+        scaleAnimate.values = NSArray(objects: 1, 1.5, 2, 2.5, 2, 1.5, 1) as [AnyObject]
+        scaleAnimate.removedOnCompletion = false
+        scaleAnimate.fillMode = kCAFillModeRemoved
+        scaleAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        
         let animateGroup = CAAnimationGroup()
-        animateGroup.animations = NSArray(objects: alphaAnimate, moveAnimate) as? [CAAnimation]
+        animateGroup.animations = NSArray(objects: alphaAnimate, moveAnimate, scaleAnimate) as? [CAAnimation]
         animateGroup.duration = Double(HUDduration)
         animateGroup.repeatCount = FLT_MAX
         

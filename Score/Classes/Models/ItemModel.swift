@@ -30,6 +30,7 @@ class ItemModel: Reflect {
         studentname = model.objectForKey("sname") as! String
         score = model.objectForKey("score") as! NSInteger
         detail = model.objectForKey("detail") as! String
-        createTime = model.objectForKey("meta") as! String
+        createTime = model.objectForKey("meta") as? String
+        createTime = createTime != nil ? createTime : "未查询到录入时间"
     }
 }
