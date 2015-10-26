@@ -134,7 +134,7 @@ class LoginViewController: UIViewController {
         
         // APIURL      : http://10.73.41.68:8080/Json/servlet/ReturnZjp
         // ARIURL_TEST : http://10.73.40.128:3000
-        Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
+        Alamofire.request(.POST, APIURL_TEST, parameters: params).responseJSON { response in
             
 //            self.activity.stopAnimating()
             

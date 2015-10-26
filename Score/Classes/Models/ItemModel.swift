@@ -31,6 +31,6 @@ class ItemModel: Reflect {
         score = model.objectForKey("score") as! NSInteger
         detail = model.objectForKey("detail") as! String
         createTime = model.objectForKey("meta") as? String
-        createTime = createTime != nil ? createTime : "未查询到录入时间"
+        createTime = createTime != "0" ? createTime : "未查询到录入时间"
     }
 }

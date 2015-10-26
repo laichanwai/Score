@@ -116,12 +116,26 @@ class LZWProgressHUD: UIView {
     */
     private func show() {
         
+        // mask
+        let maskLayer = CALayer()
+        maskLayer.frame = self.frame
+        maskLayer.backgroundColor = UIColor.blackColor().CGColor
+        maskLayer.opacity = 0.1
+        self.layer.addSublayer(maskLayer)
+        
+//        let maskAnimate = CABasicAnimation(keyPath: "opacity")
+//        maskAnimate.fromValue = 0
+//        maskAnimate.toValue = 0.3
+//        maskAnimate.duration = 3
+//        maskLayer.addAnimation(maskAnimate, forKey: "maskShowAnimate")
+        
+        // bgView
         let bgView = UIView()
         bgView.center = CGPointMake(self.center.x, self.center.y + 50)
-        bgView.frame.size = CGSizeMake(90, 40)
+        bgView.frame.size = CGSizeMake(80, 40)
         bgView.backgroundColor = UIColor.clearColor()
         
-        
+        // bubble
         for index in 1...bubbleCount {
             
             let appearLayer = getAnimationLayer(frame: bgView.frame, fillColor: bubbleColor, delay: CGFloat(index) * bubbleDelay)
@@ -169,8 +183,7 @@ class LZWProgressHUD: UIView {
         moveAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
         
         let alphaAnimate = CAKeyframeAnimation(keyPath: "opacity")
-        alphaAnimate.values = NSArray(objects: 0.5, 1, 0.5) as [AnyObject]
-//        alphaAnimate.duration = Double(HUDduration * 1.7)
+        alphaAnimate.values = NSArray(objects: 0.7, 1, 0.7) as [AnyObject]
         alphaAnimate.removedOnCompletion = false
         alphaAnimate.fillMode = kCAFillModeRemoved
         alphaAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
@@ -214,8 +227,8 @@ class LZWProgressHUD: UIView {
         bezierpath.addArcWithCenter(CGPointMake(left + space + radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
         bezierpath.addLineToPoint(CGPointMake(left + 2 * space + 2 * radius, top))
         bezierpath.addArcWithCenter(CGPointMake(left + 2 * space + 3 * radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
-        bezierpath.addLineToPoint(CGPointMake(left + 3 * space + 4 * radius, top))
-//        bezierpath.closePath()
+        bezierpath.addLineToPoint(CGPointMake(left + 4 * space + 5 * radius, top))
+        bezierpath.closePath()
         
         return bezierpath
     }
