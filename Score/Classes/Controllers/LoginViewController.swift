@@ -66,13 +66,13 @@ class LoginViewController: UIViewController {
     // 查询按钮点击
     @IBAction func queryButtonClick(sender: AnyObject) {
         
-//        if self.activity.isAnimating() {
-//            
-//            return;
-//        }
-//        print("click")
-//        
-//        self.activity.startAnimating()
+        if self.activity.isAnimating() {
+            
+            return;
+        }
+        print("click")
+        
+        self.activity.startAnimating()
         
         self.queryButton.center.x -= 30
         UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: .AllowUserInteraction, animations: { _ in
