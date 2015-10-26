@@ -23,8 +23,19 @@ class LZWProgressHUD: UIView {
     let bubbleColor: UIColor = UIColor.whiteColor()
     let bubbleRadius: CGFloat = 3
     
+    // Title Label
+    let titleLabel: UILabel = UILabel()
+    let title:String = "loading..."
+    let titleColor:UIColor = UIColor.whiteColor()
+    let titleFontSize:CGFloat = 16
+    var isShowTitle:Bool = true
+    
     // HUD
     let HUDduration: CGFloat = 2
+    
+    let logoView = UIView()
+    let maskLayer = CALayer()
+    var isShowMask:Bool = true
     
     private let mainScreen = UIScreen.mainScreen()
     
@@ -43,6 +54,7 @@ class LZWProgressHUD: UIView {
         dispatch_once(&Instance.oneToken) { () -> Void in
             
             Instance.instance = LZWProgressHUD(frame: UIScreen.mainScreen().bounds)
+            
         }
         
         return Instance.instance!
@@ -51,6 +63,8 @@ class LZWProgressHUD: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        // 初始化设置
+        configureHUD()
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -63,7 +77,7 @@ class LZWProgressHUD: UIView {
     */
     class func showProgressHUD() {
         
-        shareInstance().configureHUD(autoHide: false, view: nil)
+        shareInstance().show(autoHide: false, view: nil)
     }
     
     /**
@@ -73,7 +87,7 @@ class LZWProgressHUD: UIView {
     */
     class func showHUDToView(view: UIView) {
         
-        shareInstance().configureHUD(autoHide: false, view: view)
+        shareInstance().show(autoHide: false, view: view)
     }
     
     /**
@@ -89,7 +103,43 @@ class LZWProgressHUD: UIView {
     /**
     - 初始化设置 HUD
     */
-    private func configureHUD(autoHide autoHide: Bool, var view: UIView?) {
+    private func configureHUD() {
+        
+        // self
+        self.backgroundColor = UIColor.clearColor()
+        
+        // mask
+        if isShowMask {
+            
+            maskLayer.frame = self.frame
+            maskLayer.backgroundColor = UIColor.blackColor().CGColor
+            maskLayer.opacity = 0.2
+            self.layer.addSublayer(maskLayer)
+        }
+        
+        // logoView
+        logoView.center = CGPointMake(self.center.x, self.center.y + 50)
+        logoView.frame.size = CGSizeMake(80, 40)
+        logoView.backgroundColor = UIColor.clearColor()
+        self.addSubview(logoView);
+        
+        // titleLabel
+        if isShowTitle {
+            
+            titleLabel.text = title
+            titleLabel.tintColor = titleColor
+            titleLabel.font = UIFont.systemFontOfSize(titleFontSize)
+            titleLabel.center = CGPointMake(logoView.center.x, logoView.frame.height)
+            titleLabel.frame.size = CGSizeMake(logoView.frame.width, titleFontSize + 5)
+            logoView.addSubview(titleLabel)
+        }
+        
+    }
+    
+    /**
+    - 显示 HUD
+    */
+    private func show(autoHide autoHide: Bool, var view: UIView?) {
         
         if view == nil {
             
@@ -97,10 +147,22 @@ class LZWProgressHUD: UIView {
         }
         
         self.frame = view!.frame
-        self.backgroundColor = UIColor.clearColor()
-        view?.addSubview(self)
         
-        self.show()
+        view?.addSubview(self)
+        self.hidden = true
+        UIView.transitionWithView(self, duration: 0.2, options: .CurveEaseInOut  , animations: { _ in
+            
+            self.hidden = false
+            }) { _ in
+                
+        }
+        // bubble
+        for index in 1...bubbleCount {
+            
+            let appearLayer = getAnimationLayer(frame: logoView.frame, fillColor: bubbleColor, delay: CGFloat(index) * bubbleDelay)
+            
+            logoView.layer.addSublayer(appearLayer)
+        }
         
         if autoHide {
             
@@ -109,41 +171,6 @@ class LZWProgressHUD: UIView {
                 self.hide()
             })
         }
-    }
-    
-    /**
-    - 显示 HUD
-    */
-    private func show() {
-        
-        // mask
-        let maskLayer = CALayer()
-        maskLayer.frame = self.frame
-        maskLayer.backgroundColor = UIColor.blackColor().CGColor
-        maskLayer.opacity = 0.1
-        self.layer.addSublayer(maskLayer)
-        
-//        let maskAnimate = CABasicAnimation(keyPath: "opacity")
-//        maskAnimate.fromValue = 0
-//        maskAnimate.toValue = 0.3
-//        maskAnimate.duration = 3
-//        maskLayer.addAnimation(maskAnimate, forKey: "maskShowAnimate")
-        
-        // bgView
-        let bgView = UIView()
-        bgView.center = CGPointMake(self.center.x, self.center.y + 50)
-        bgView.frame.size = CGSizeMake(80, 40)
-        bgView.backgroundColor = UIColor.clearColor()
-        
-        // bubble
-        for index in 1...bubbleCount {
-            
-            let appearLayer = getAnimationLayer(frame: bgView.frame, fillColor: bubbleColor, delay: CGFloat(index) * bubbleDelay)
-            
-            bgView.layer.addSublayer(appearLayer)
-        }
-        
-        self.addSubview(bgView);
     }
     
     private func hide() {
@@ -214,18 +241,18 @@ class LZWProgressHUD: UIView {
     */
     private func shapeMoveBezierpath() -> UIBezierPath {
         
-        // logo 参数
+        // bubble 参数
         let left: CGFloat = 0
         let top: CGFloat = 0
         let space: CGFloat = 10     // 间隔
         let beginPoint: CGPoint = CGPointMake(left, top)
         let radius: CGFloat = 15    // 远的半径
         
-        // logo 贝赛尔曲线
+        // bubble 贝赛尔曲线
         let bezierpath = UIBezierPath()
         bezierpath.moveToPoint(beginPoint)
-        bezierpath.addArcWithCenter(CGPointMake(left + space + radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
-        bezierpath.addLineToPoint(CGPointMake(left + 2 * space + 2 * radius, top))
+//        bezierpath.addArcWithCenter(CGPointMake(left + space + radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
+//        bezierpath.addLineToPoint(CGPointMake(left + 2 * space + 2 * radius, top))
         bezierpath.addArcWithCenter(CGPointMake(left + 2 * space + 3 * radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
         bezierpath.addLineToPoint(CGPointMake(left + 4 * space + 5 * radius, top))
         bezierpath.closePath()

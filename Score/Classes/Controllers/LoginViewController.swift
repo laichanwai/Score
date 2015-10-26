@@ -43,11 +43,6 @@ class LoginViewController: UIViewController {
         self.idTextField.addSubview(profileIcon)
         self.pzwTextField.addSubview(passwordIcon)
         
-        // 测试
-//        self.idTextField.text = "20131287"
-//        self.pzwTextField.text = "20131287"
-//        self.queryButtonClick("")
-        
         // Activity
         self.activity.hidesWhenStopped = true
         self.activity.frame = CGRectMake(25, 12, 35, 35)
@@ -66,24 +61,10 @@ class LoginViewController: UIViewController {
     // 查询按钮点击
     @IBAction func queryButtonClick(sender: AnyObject) {
         
-//        if self.activity.isAnimating() {
-//            
-//            return;
-//        }
-//        print("click")
+        self.view.userInteractionEnabled = false
         
-//        self.activity.startAnimating()
+        self.activity.startAnimating()
         
-        LZWProgressHUD.showProgressHUD()
-        
-        self.queryButton.center.x -= 30
-        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: .AllowUserInteraction, animations: { _ in
-            
-            self.queryButton.center.x += 30
-        
-            }, completion: { _ in
-                
-        })
         if self.warningView.hidden == false {
             
             UIView.transitionWithView(self.warningView, duration: 0.3, options: .TransitionCrossDissolve, animations: { _ in
@@ -133,10 +114,10 @@ class LoginViewController: UIViewController {
         ]
         
         // APIURL      : http://10.73.41.68:8080/Json/servlet/ReturnZjp
-        // ARIURL_TEST : http://10.73.40.128:3000
+        // ARIURL_TEST : http://10.73.40.73:3000
         Alamofire.request(.POST, APIURL_TEST, parameters: params).responseJSON { response in
             
-//            self.activity.stopAnimating()
+            self.activity.stopAnimating()
             
             print(response)
             
@@ -146,8 +127,6 @@ class LoginViewController: UIViewController {
                 
                 return
             }else if response.result.value?.objectForKey("status") as! NSInteger == NSInteger(200) {
-                
-                LZWProgressHUD.hideHUD()
                 
                 let scoreModel = ScoreModel(model: response.result.value!)
                 
@@ -165,24 +144,32 @@ class LoginViewController: UIViewController {
     // 显示出错信息
     func showWarning(message: String) {
         
-        LZWProgressHUD.hideHUD()
+        self.view.userInteractionEnabled = true
         
         self.warningMessage.text = message
-        
-        UIView.animateWithDuration(0.3, animations: { _ in
+        self.queryButton.center.x -= 30
+        UIView.animateWithDuration(0.5, delay: 0, usingSpringWithDamping: 0.2, initialSpringVelocity: 0, options: .AllowUserInteraction, animations: { _ in
             
+            self.queryButton.center.x += 30
             
-            self.queryButtonTop.constant += 80
-            self.queryButton.layoutIfNeeded()
-            
-            }, completion: {  _ in
+            }, completion: { _ in
                 
-                UIView.transitionWithView(self.warningView, duration: 0.3, options: .TransitionFlipFromTop, animations: { _ in
+                UIView.animateWithDuration(0.3, animations: { _ in
                     
-                    self.warningView.hidden = false
                     
-                    }, completion: nil)
+                    self.queryButtonTop.constant += 80
+                    self.queryButton.layoutIfNeeded()
+                    
+                    }, completion: {  _ in
+                        
+                        UIView.transitionWithView(self.warningView, duration: 0.3, options: .TransitionFlipFromTop, animations: { _ in
+                            
+                            self.warningView.hidden = false
+                            
+                            }, completion: nil)
+                })
         })
+        
     }
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
