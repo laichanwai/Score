@@ -8,43 +8,35 @@
 
 import UIKit
 
-func DEGREES_TO_RADIUS(degrees: CGFloat) -> CGFloat {
-    return 3.14159265358979323846 * degrees / 180.0
-}
-
 class LZWProgressHUD: UIView {
-
-    /**
-    - HUD 配置
-    */
-    // Bubble
-    let bubbleCount: NSInteger = 8
-    let bubbleDelay: CGFloat = 0.1
-    let bubbleColor: UIColor = UIColor.whiteColor()
-    let bubbleRadius: CGFloat = 3
     
-    // Title Label
-    let titleLabel: UILabel = UILabel()
-    let title:String = "loading..."
-    let titleColor:UIColor = UIColor.whiteColor()
-    let titleFontSize:CGFloat = 16
-    var isShowTitle:Bool = true
+    // MARK: - 配置
+    private let DEFAULT_COLOR = UIColor.whiteColor()
+    private let DEFAULT_SIZE = CGSize(width: 40, height: 40)
+    private let offset = CGPoint(x: 0, y: 250)
     
-    // HUD
-    let HUDduration: CGFloat = 2
     
-    let logoView = UIView()
-    let maskLayer = CALayer()
-    var isShowMask:Bool = true
+    // MARK: - show and hide 方法 -> 类方法
+    class func showHUD() {
+        
+        shareInstance().configureHUD(autoHide: false, inView: nil)
+    }
     
-    private let mainScreen = UIScreen.mainScreen()
+    class func showHUDInView(view: UIView) {
+        
+        shareInstance().configureHUD(autoHide: false, inView: view)
+    }
     
-    /**
-    - 单例
+    class func hideHUD(delay time: CGFloat) {
+        
+        shareInstance().delay(time) { () -> () in
+            
+            shareInstance().hide()
+        }
+    }
     
-    - returns: 单例对象
-    */
-    class func shareInstance() -> LZWProgressHUD {
+    // MARK: - 单例 life circle
+    private class func shareInstance() -> LZWProgressHUD {
         
         struct Instance {
             static var oneToken: dispatch_once_t = 0
@@ -54,125 +46,45 @@ class LZWProgressHUD: UIView {
         dispatch_once(&Instance.oneToken) { () -> Void in
             
             Instance.instance = LZWProgressHUD(frame: UIScreen.mainScreen().bounds)
-            
+            Instance.instance?.setupView()
         }
         
         return Instance.instance!
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        // 初始化设置
-        configureHUD()
-    }
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    /*******************************Public Method*******************************/
-    /**
-    - showHUD
-    */
-    class func showProgressHUD() {
-        
-        shareInstance().show(autoHide: false, view: nil)
-    }
-    
-    /**
-    - showHUDInView
-    
-    - parameter view: 显示 HUD 的 view
-    */
-    class func showHUDToView(view: UIView) {
-        
-        shareInstance().show(autoHide: false, view: view)
-    }
-    
-    /**
-    - 隐藏 HUD
-    */
-    class func hideHUD() {
-        
-        shareInstance().hide()
-    }
-    
-    /*******************************Private Method*******************************/
-    
-    /**
-    - 初始化设置 HUD
-    */
-    private func configureHUD() {
-        
-        // self
-        self.backgroundColor = UIColor.clearColor()
-        
-        // mask
-        if isShowMask {
-            
-            maskLayer.frame = self.frame
-            maskLayer.backgroundColor = UIColor.blackColor().CGColor
-            maskLayer.opacity = 0.2
-            self.layer.addSublayer(maskLayer)
-        }
-        
-        // logoView
-        logoView.center = CGPointMake(self.center.x, self.center.y + 50)
-        logoView.frame.size = CGSizeMake(80, 40)
-        logoView.backgroundColor = UIColor.clearColor()
-        self.addSubview(logoView);
-        
-        // titleLabel
-        if isShowTitle {
-            
-            titleLabel.text = title
-            titleLabel.tintColor = titleColor
-            titleLabel.font = UIFont.systemFontOfSize(titleFontSize)
-            titleLabel.center = CGPointMake(logoView.center.x, logoView.frame.height)
-            titleLabel.frame.size = CGSizeMake(logoView.frame.width, titleFontSize + 5)
-            logoView.addSubview(titleLabel)
-        }
-        
-    }
-    
-    /**
-    - 显示 HUD
-    */
-    private func show(autoHide autoHide: Bool, var view: UIView?) {
+    // MARK: - 配置 HUD
+    private func configureHUD(autoHide autoHide: Bool, var inView view: UIView?) {
         
         if view == nil {
             
             view = self.getWindow()
         }
         
-        self.frame = view!.frame
-        
-        view?.addSubview(self)
-        self.hidden = true
-        UIView.transitionWithView(self, duration: 0.2, options: .CurveEaseInOut  , animations: { _ in
-            
-            self.hidden = false
-            }) { _ in
-                
-        }
-        // bubble
-        for index in 1...bubbleCount {
-            
-            let appearLayer = getAnimationLayer(frame: logoView.frame, fillColor: bubbleColor, delay: CGFloat(index) * bubbleDelay)
-            
-            logoView.layer.addSublayer(appearLayer)
-        }
+        self.show(inView: view!)
         
         if autoHide {
             
-            delay(HUDduration - 0.3, task: { () -> () in
+            delay(1.5, task: { () -> () in
                 
                 self.hide()
             })
         }
     }
     
+    // 显示 HUD
+    private func show(inView view: UIView) {
+        
+        
+        view.addSubview(self)
+        
+        self.hidden = true
+        UIView.transitionWithView(self, duration: 0.2, options: .CurveEaseInOut, animations: { _ in
+            
+            self.hidden = false
+            }, completion: nil)
+    }
+    
+    // 隐藏 HUD
     private func hide() {
         
         if self.superview != nil {
@@ -187,79 +99,95 @@ class LZWProgressHUD: UIView {
         }
     }
     
-    /**
-    - bubble layer 设置
+    // MARK: - -------------初始化设置 ---------------
+    var animating: Bool = false
     
-    - parameter frame:       bubble Frame
-    - parameter fillColor:   bubble 填充颜色
-    - parameter delay:       延时
+    // MARK: 加载 View
+    private func setupView() {
+        
+        self.backgroundColor = UIColor.clearColor()
+        self.frame = UIScreen.mainScreen().bounds
+        
+        self.setupLayer()
+    }
     
-    - returns: bubble layer
-    */
-    func getAnimationLayer(frame frame: CGRect, fillColor: UIColor, delay: CGFloat) -> CAShapeLayer {
+    // MARK: 加载 layer
+    private func setupLayer() {
         
-        let layer = CAShapeLayer()
-        layer.frame = frame
-        layer.path = UIBezierPath(arcCenter: CGPointMake(0, 0), radius: bubbleRadius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true).CGPath
-        layer.fillColor = fillColor.CGColor
+        self.setupAnimateLayer(size: DEFAULT_SIZE, fillcolor: DEFAULT_COLOR)
+    }
+    
+    // MARK: 加载 动画
+    private func setupAnimateLayer(size size: CGSize, fillcolor: UIColor) {
         
-        let moveAnimate = CAKeyframeAnimation(keyPath: "position")
-        moveAnimate.path = shapeMoveBezierpath().CGPath
-        moveAnimate.removedOnCompletion = false
-        moveAnimate.fillMode = kCAFillModeRemoved
-        moveAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        let circleSpacing: CGFloat = -2
+        let circleSize = (size.width - 4 * circleSpacing) / 5
+        let origin = CGPointMake((layer.bounds.size.width - size.width) / 2 + offset.x, (layer.bounds.size.height - size.height) / 2 + offset.y)
+        let duration: CFTimeInterval = 1
+        let beginTime = CACurrentMediaTime()
+        let beginTimes: [CFTimeInterval] = [0, 0.12, 0.24, 0.36, 0.48, 0.6, 0.72, 0.84]
         
-        let alphaAnimate = CAKeyframeAnimation(keyPath: "opacity")
-        alphaAnimate.values = NSArray(objects: 0.7, 1, 0.7) as [AnyObject]
-        alphaAnimate.removedOnCompletion = false
-        alphaAnimate.fillMode = kCAFillModeRemoved
-        alphaAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        // Scale animation
+        let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
         
-        let scaleAnimate = CAKeyframeAnimation(keyPath: "transform.scale")
-        scaleAnimate.values = NSArray(objects: 1, 1.5, 2, 2.5, 2, 1.5, 1) as [AnyObject]
-        scaleAnimate.removedOnCompletion = false
-        scaleAnimate.fillMode = kCAFillModeRemoved
-        scaleAnimate.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+        scaleAnimation.keyTimes = [0, 0.5, 1]
+        scaleAnimation.values = [1, 0.4, 1]
+        scaleAnimation.duration = duration
         
-        let animateGroup = CAAnimationGroup()
-        animateGroup.animations = NSArray(objects: alphaAnimate, moveAnimate, scaleAnimate) as? [CAAnimation]
-        animateGroup.duration = Double(HUDduration)
-        animateGroup.repeatCount = FLT_MAX
+        // Opacity animation
+        let opacityAnimaton = CAKeyframeAnimation(keyPath: "opacity")
         
-        self.delay(delay) { () -> () in
+        opacityAnimaton.keyTimes = [0, 0.5, 1]
+        opacityAnimaton.values = [1, 0.3, 1]
+        opacityAnimaton.duration = duration
+        
+        // Animation
+        let animation = CAAnimationGroup()
+        
+        animation.animations = [scaleAnimation, opacityAnimaton]
+        animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
+        animation.duration = duration
+        animation.repeatCount = HUGE
+        animation.removedOnCompletion = false
+        
+        // Draw circles
+        for var i = 0; i < 8; i++ {
+            let circle = createCircleLayer(angle: CGFloat(M_PI_4 * Double(i)),
+                origin: origin,
+                circleSize: circleSize,
+                color: fillcolor,
+                containerSize: size)
             
-            layer.addAnimation(animateGroup, forKey: "layerAnimate")
+            animation.beginTime = beginTime + beginTimes[i]
+            circle.addAnimation(animation, forKey: "animation")
+            self.layer.addSublayer(circle)
         }
-        
-        return layer
     }
     
-    /**
-    - bubble 运动路径
-    
-    - returns: bubble 运动路径
-    */
-    private func shapeMoveBezierpath() -> UIBezierPath {
+    // 创建圆球
+    private func createCircleLayer(angle angle: CGFloat, origin: CGPoint, circleSize:CGFloat, color: UIColor, containerSize: CGSize) -> CALayer {
         
-        // bubble 参数
-        let left: CGFloat = 0
-        let top: CGFloat = 0
-        let space: CGFloat = 10     // 间隔
-        let beginPoint: CGPoint = CGPointMake(left, top)
-        let radius: CGFloat = 15    // 远的半径
+        let circle = CAShapeLayer()
         
-        // bubble 贝赛尔曲线
-        let bezierpath = UIBezierPath()
-        bezierpath.moveToPoint(beginPoint)
-//        bezierpath.addArcWithCenter(CGPointMake(left + space + radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
-//        bezierpath.addLineToPoint(CGPointMake(left + 2 * space + 2 * radius, top))
-        bezierpath.addArcWithCenter(CGPointMake(left + 2 * space + 3 * radius, radius + top), radius: radius, startAngle: DEGREES_TO_RADIUS(-90), endAngle: DEGREES_TO_RADIUS(270), clockwise: true)
-        bezierpath.addLineToPoint(CGPointMake(left + 4 * space + 5 * radius, top))
-        bezierpath.closePath()
+        circle.path = UIBezierPath(arcCenter: CGPointMake(circleSize / 2, circleSize / 2),
+            radius: circleSize / 2,
+            startAngle: 0,
+            endAngle: CGFloat(2 * M_PI),
+            clockwise: true).CGPath
+        circle.fillColor = color.CGColor
         
-        return bezierpath
+        let radius = containerSize.width / 2
+        let frame = CGRect(x: origin.x + radius * (cos(angle) + 1) - circleSize / 2,
+            y: origin.y + radius * (sin(angle) + 1) - circleSize / 2,
+            width: circleSize,
+            height: circleSize)
+        
+        circle.frame = frame
+        
+        return circle
     }
     
+    // MARK: - 附加方法
     /**
     - 获得主窗口
     
@@ -288,4 +216,5 @@ class LZWProgressHUD: UIView {
             task()
         }
     }
+
 }

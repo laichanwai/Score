@@ -9,7 +9,7 @@
 import Foundation
 
 // 测试 API 地址
-let APIURL_TEST = "http://10.73.40.73:3000"
+let APIURL_TEST = "http://10.73.2.47:3000"
 
 // API 地址
 let APIURL = "http://10.73.41.68:8080/Json/servlet/ReturnDPG"

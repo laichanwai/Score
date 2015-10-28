@@ -21,8 +21,6 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var warningView: UIView!
     @IBOutlet weak var warningMessage: UILabel!
     
-    let activity = UIActivityIndicatorView(activityIndicatorStyle: .White)
-    
     var queryButtonOrignTopConstant: CGFloat = 0
     
     override func viewDidLoad() {
@@ -43,11 +41,6 @@ class LoginViewController: UIViewController {
         self.idTextField.addSubview(profileIcon)
         self.pzwTextField.addSubview(passwordIcon)
         
-        // Activity
-        self.activity.hidesWhenStopped = true
-        self.activity.frame = CGRectMake(25, 12, 35, 35)
-        self.queryButton.addSubview(self.activity)
-        
         // queryButton
         self.queryButtonOrignTopConstant = self.queryButtonTop.constant
     }
@@ -61,9 +54,7 @@ class LoginViewController: UIViewController {
     // 查询按钮点击
     @IBAction func queryButtonClick(sender: AnyObject) {
         
-        self.view.userInteractionEnabled = false
-        
-        self.activity.startAnimating()
+        LZWProgressHUD.showHUD()
         
         if self.warningView.hidden == false {
             
@@ -96,7 +87,7 @@ class LoginViewController: UIViewController {
             
             self.showWarning("用户 id 不能为空")
             
-            self.activity.stopAnimating()
+            LZWProgressHUD.hideHUD(delay: 0)
             
             return
         }
@@ -104,7 +95,7 @@ class LoginViewController: UIViewController {
             
             self.showWarning("密码不正确")
             
-            self.activity.stopAnimating()
+            LZWProgressHUD.hideHUD(delay: 0)
             
             return
         }
@@ -114,10 +105,10 @@ class LoginViewController: UIViewController {
         ]
         
         // APIURL      : http://10.73.41.68:8080/Json/servlet/ReturnZjp
-        // ARIURL_TEST : http://10.73.40.73:3000
-        Alamofire.request(.POST, APIURL_TEST, parameters: params).responseJSON { response in
+        // ARIURL_TEST : http://10.73.2.47:3000
+        Alamofire.request(.POST, "http://localhost:3000", parameters: params).responseJSON { response in
             
-            self.activity.stopAnimating()
+            LZWProgressHUD.hideHUD(delay: 0)
             
             print(response)
             
@@ -144,7 +135,7 @@ class LoginViewController: UIViewController {
     // 显示出错信息
     func showWarning(message: String) {
         
-        self.view.userInteractionEnabled = true
+        LZWProgressHUD.hideHUD(delay: 0)
         
         self.warningMessage.text = message
         self.queryButton.center.x -= 30

@@ -12,7 +12,7 @@ class UserModel: Reflect {
 
     var name: String!
     var id: NSInteger!
-    var grade: NSInteger!
+    var grade: NSInteger?
     var classes: NSInteger?
     var college: NSInteger?
     
@@ -26,7 +26,7 @@ class UserModel: Reflect {
         
         name = model.objectForKey("name") as! String
         id = model.objectForKey("id") as! NSInteger
-        grade = model.objectForKey("grade") as! NSInteger
+        grade = model.objectForKey("grade") as? NSInteger
         classes = model.objectForKey("classes") as? NSInteger
         college = model.objectForKey("college") as? NSInteger
     }
