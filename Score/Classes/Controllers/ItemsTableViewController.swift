@@ -30,14 +30,14 @@ class ItemsTableViewController: UITableViewController {
                 score += (item as! ItemModel).score
             }
             
-            self.popupvc = DetailPopupViewController(nibName: "DetailPopupViewController", bundle: nil)
-            
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 
                 let rightItem = UIBarButtonItem(title: "总分：\(score)", style: .Plain, target: nil, action: nil)
                 self.navigationItem.rightBarButtonItem = rightItem
             })
         }
+        
+        self.popupvc = DetailPopupViewController(nibName: "DetailPopupViewController", bundle: nil)
         
         // 设置背景
         self.tableView.layer.contents = UIImage(named: "background")?.CGImage

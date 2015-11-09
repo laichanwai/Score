@@ -11,9 +11,13 @@ import UIKit
 class LZWProgressHUD: UIView {
     
     // MARK: - 配置
-    private let DEFAULT_COLOR = UIColor.whiteColor()
-    private let DEFAULT_SIZE = CGSize(width: 40, height: 40)
-    private let offset = CGPoint(x: 0, y: 250)
+    private static let DEFAULT_COLOR = UIColor.whiteColor()
+    private static let DEFAULT_SIZE = CGSize(width: 40, height: 40)
+    private static let DEFAULT_OFFSET = CGPoint(x: 0, y: 0)
+    
+    static var color: UIColor = LZWProgressHUD.DEFAULT_COLOR
+    static var size: CGSize = LZWProgressHUD.DEFAULT_SIZE
+    static var offset: CGPoint = LZWProgressHUD.DEFAULT_OFFSET
     
     
     // MARK: - show and hide 方法 -> 类方法
@@ -114,7 +118,7 @@ class LZWProgressHUD: UIView {
     // MARK: 加载 layer
     private func setupLayer() {
         
-        self.setupAnimateLayer(size: DEFAULT_SIZE, fillcolor: DEFAULT_COLOR)
+        self.setupAnimateLayer(size: LZWProgressHUD.size, fillcolor: LZWProgressHUD.color)
     }
     
     // MARK: 加载 动画
@@ -122,7 +126,7 @@ class LZWProgressHUD: UIView {
         
         let circleSpacing: CGFloat = -2
         let circleSize = (size.width - 4 * circleSpacing) / 5
-        let origin = CGPointMake((layer.bounds.size.width - size.width) / 2 + offset.x, (layer.bounds.size.height - size.height) / 2 + offset.y)
+        let origin = CGPointMake((layer.bounds.size.width - size.width) / 2 + LZWProgressHUD.offset.x, (layer.bounds.size.height - size.height) / 2 + LZWProgressHUD.offset.y)
         let duration: CFTimeInterval = 1
         let beginTime = CACurrentMediaTime()
         let beginTimes: [CFTimeInterval] = [0, 0.12, 0.24, 0.36, 0.48, 0.6, 0.72, 0.84]
@@ -216,5 +220,5 @@ class LZWProgressHUD: UIView {
             task()
         }
     }
-
+    
 }

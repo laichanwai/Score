@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-class LoginViewController: UIViewController {
+class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var idTextField: UITextField!
     
@@ -51,9 +51,26 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBarHidden = true
     }
 
+    // MARK: UITextField Delegate
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        
+        if textField == idTextField {
+            
+            pzwTextField.becomeFirstResponder()
+        }else {
+            
+            queryButtonClick("");
+        }
+        
+        return true
+    }
+    
     // 查询按钮点击
     @IBAction func queryButtonClick(sender: AnyObject) {
         
+        self.view.endEditing(true)
+        
+        LZWProgressHUD.offset = CGPoint(x: 0, y: 250)
         LZWProgressHUD.showHUD()
         
         if self.warningView.hidden == false {

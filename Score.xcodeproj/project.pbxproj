@@ -7,37 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		CA04E4401BD4AA6B00F01EA5 /* Reflect+ArcFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4351BD4AA6B00F01EA5 /* Reflect+ArcFile.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4411BD4AA6B00F01EA5 /* Reflect+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4371BD4AA6B00F01EA5 /* Reflect+Parse.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4421BD4AA6B00F01EA5 /* Reflect+Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4391BD4AA6B00F01EA5 /* Reflect+Convert.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4431BD4AA6B00F01EA5 /* Reflect+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43B1BD4AA6B00F01EA5 /* Reflect+Class.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4441BD4AA6B00F01EA5 /* Reflect+Other.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43C1BD4AA6B00F01EA5 /* Reflect+Other.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4451BD4AA6B00F01EA5 /* Reflect+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43D1BD4AA6B00F01EA5 /* Reflect+Property.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4461BD4AA6B00F01EA5 /* Reflect+Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43E1BD4AA6B00F01EA5 /* Reflect+Type.swift */; settings = {ASSET_TAGS = (); }; };
-		CA04E4471BD4AA6B00F01EA5 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43F1BD4AA6B00F01EA5 /* Reflect.swift */; settings = {ASSET_TAGS = (); }; };
+		CA04E4401BD4AA6B00F01EA5 /* Reflect+ArcFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4351BD4AA6B00F01EA5 /* Reflect+ArcFile.swift */; };
+		CA04E4411BD4AA6B00F01EA5 /* Reflect+Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4371BD4AA6B00F01EA5 /* Reflect+Parse.swift */; };
+		CA04E4421BD4AA6B00F01EA5 /* Reflect+Convert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4391BD4AA6B00F01EA5 /* Reflect+Convert.swift */; };
+		CA04E4431BD4AA6B00F01EA5 /* Reflect+Class.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43B1BD4AA6B00F01EA5 /* Reflect+Class.swift */; };
+		CA04E4441BD4AA6B00F01EA5 /* Reflect+Other.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43C1BD4AA6B00F01EA5 /* Reflect+Other.swift */; };
+		CA04E4451BD4AA6B00F01EA5 /* Reflect+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43D1BD4AA6B00F01EA5 /* Reflect+Property.swift */; };
+		CA04E4461BD4AA6B00F01EA5 /* Reflect+Type.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43E1BD4AA6B00F01EA5 /* Reflect+Type.swift */; };
+		CA04E4471BD4AA6B00F01EA5 /* Reflect.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E43F1BD4AA6B00F01EA5 /* Reflect.swift */; };
 		CA04E4E21BD513FF00F01EA5 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA04E4D91BD513F000F01EA5 /* Alamofire.framework */; };
 		CA04E4E31BD513FF00F01EA5 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = CA04E4D91BD513F000F01EA5 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		CA04E4E81BD5197500F01EA5 /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4E71BD5197500F01EA5 /* ScoreModel.swift */; settings = {ASSET_TAGS = (); }; };
-		CA35F01E1BDA21B300F9B6F1 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35F01D1BDA21B300F9B6F1 /* BaseNavigationController.swift */; settings = {ASSET_TAGS = (); }; };
-		CA35F0251BDA641100F9B6F1 /* UIVViewController-SLPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35F0241BDA641100F9B6F1 /* UIVViewController-SLPopup.swift */; settings = {ASSET_TAGS = (); }; };
-		CA35F0281BDA646200F9B6F1 /* DetailPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35F0261BDA646200F9B6F1 /* DetailPopupViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		CA35F0291BDA646200F9B6F1 /* DetailPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA35F0271BDA646200F9B6F1 /* DetailPopupViewController.xib */; settings = {ASSET_TAGS = (); }; };
+		CA04E4E81BD5197500F01EA5 /* ScoreModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA04E4E71BD5197500F01EA5 /* ScoreModel.swift */; };
+		CA35F01E1BDA21B300F9B6F1 /* BaseNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35F01D1BDA21B300F9B6F1 /* BaseNavigationController.swift */; };
+		CA35F0251BDA641100F9B6F1 /* UIVViewController-SLPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35F0241BDA641100F9B6F1 /* UIVViewController-SLPopup.swift */; };
+		CA35F0281BDA646200F9B6F1 /* DetailPopupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA35F0261BDA646200F9B6F1 /* DetailPopupViewController.swift */; };
+		CA35F0291BDA646200F9B6F1 /* DetailPopupViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = CA35F0271BDA646200F9B6F1 /* DetailPopupViewController.xib */; };
 		CA5F159B1BD393E100C0EEF9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA5F15991BD393E100C0EEF9 /* Main.storyboard */; };
 		CA5F15A01BD393E100C0EEF9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA5F159E1BD393E100C0EEF9 /* LaunchScreen.storyboard */; };
 		CA5F15AB1BD393E100C0EEF9 /* ScoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15AA1BD393E100C0EEF9 /* ScoreTests.swift */; };
 		CA5F15B61BD393E100C0EEF9 /* ScoreUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15B51BD393E100C0EEF9 /* ScoreUITests.swift */; };
-		CA5F15D51BD3A0A600C0EEF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15CC1BD3A0A600C0EEF9 /* AppDelegate.swift */; settings = {ASSET_TAGS = (); }; };
-		CA5F15D61BD3A0A600C0EEF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15CF1BD3A0A600C0EEF9 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		CA5F15DC1BD3A13500C0EEF9 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15DB1BD3A13500C0EEF9 /* ItemsTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		CA5F15DE1BD3A1C100C0EEF9 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15DD1BD3A1C100C0EEF9 /* UserModel.swift */; settings = {ASSET_TAGS = (); }; };
-		CA5F15E01BD3A30100C0EEF9 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15DF1BD3A30100C0EEF9 /* ItemModel.swift */; settings = {ASSET_TAGS = (); }; };
-		CA6046B21BE0CEC000C5EA72 /* LZWProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6046B11BE0CEC000C5EA72 /* LZWProgressHUD.swift */; settings = {ASSET_TAGS = (); }; };
-		CA85549D1BDB6D020018330A /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA85549C1BDB6D020018330A /* AppConfig.swift */; settings = {ASSET_TAGS = (); }; };
-		CA8554A31BDB6EA80018330A /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8554A21BDB6EA80018330A /* AppConstant.swift */; settings = {ASSET_TAGS = (); }; };
-		CAEEDEB91BD7A2DD0043C215 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEEDEB81BD7A2DD0043C215 /* ItemTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		CAEEDEBB1BD7A4050043C215 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEEDEBA1BD7A4050043C215 /* UIView+Frame.swift */; settings = {ASSET_TAGS = (); }; };
-		CAEEDECC1BD7CAC30043C215 /* MetaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEEDECB1BD7CAC30043C215 /* MetaTableViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		CAEEDED01BD9E6060043C215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAEEDECF1BD9E6060043C215 /* Assets.xcassets */; settings = {ASSET_TAGS = (); }; };
+		CA5F15D51BD3A0A600C0EEF9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15CC1BD3A0A600C0EEF9 /* AppDelegate.swift */; };
+		CA5F15D61BD3A0A600C0EEF9 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15CF1BD3A0A600C0EEF9 /* LoginViewController.swift */; };
+		CA5F15DC1BD3A13500C0EEF9 /* ItemsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15DB1BD3A13500C0EEF9 /* ItemsTableViewController.swift */; };
+		CA5F15DE1BD3A1C100C0EEF9 /* UserModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15DD1BD3A1C100C0EEF9 /* UserModel.swift */; };
+		CA5F15E01BD3A30100C0EEF9 /* ItemModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA5F15DF1BD3A30100C0EEF9 /* ItemModel.swift */; };
+		CA6046B21BE0CEC000C5EA72 /* LZWProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA6046B11BE0CEC000C5EA72 /* LZWProgressHUD.swift */; };
+		CA85549D1BDB6D020018330A /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA85549C1BDB6D020018330A /* AppConfig.swift */; };
+		CA8554A31BDB6EA80018330A /* AppConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8554A21BDB6EA80018330A /* AppConstant.swift */; };
+		CAEEDEB91BD7A2DD0043C215 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEEDEB81BD7A2DD0043C215 /* ItemTableViewCell.swift */; };
+		CAEEDEBB1BD7A4050043C215 /* UIView+Frame.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEEDEBA1BD7A4050043C215 /* UIView+Frame.swift */; };
+		CAEEDECC1BD7CAC30043C215 /* MetaTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEEDECB1BD7CAC30043C215 /* MetaTableViewCell.swift */; };
+		CAEEDED01BD9E6060043C215 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CAEEDECF1BD9E6060043C215 /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */

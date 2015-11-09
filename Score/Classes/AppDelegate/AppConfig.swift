@@ -12,7 +12,7 @@ import Foundation
 let APIURL_TEST     =   "http://10.73.2.47:3000"
 
 // API 地址
-let APIURL          =   "http://10.73.2.36:8080/Json/servlet/ReturnDPG"
+let APIURL          =   "http://10.73.17.153:8080/Json/servlet/ReturnDPG"
 
 // 请求参数
 let PARAMS_ID       =   "id"
