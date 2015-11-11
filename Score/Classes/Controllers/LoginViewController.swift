@@ -168,7 +168,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 UIView.animateWithDuration(0.3, animations: { _ in
                     
                     
-                    self.queryButtonTop.constant += 80
+                    self.queryButtonTop.constant = 80 + self.queryButtonOrignTopConstant;
                     self.queryButton.layoutIfNeeded()
                     
                     }, completion: {  _ in
