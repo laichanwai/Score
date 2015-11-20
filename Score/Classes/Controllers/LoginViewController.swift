@@ -121,11 +121,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let params = [
             PARAMS_ID : self.idTextField.text!,
             PARAMS_CURSOR : String(CURSOR_VALUE),
-            PARAMS_COUNT : String(COUNT_VALUE)
+            PARAMS_COUNT : String(COUNT_VALUE),
+            PARAMS_ISWEB : String(1)
         ]
         
-        // APIURL      : http://10.73.41.68:8080/Json/servlet/ReturnZjp
-        // ARIURL_TEST : http://10.73.2.47:3000
         Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
             
             LZWProgressHUD.hideHUD(delay: 0)
