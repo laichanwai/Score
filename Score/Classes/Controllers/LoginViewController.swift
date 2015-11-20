@@ -117,38 +117,17 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         
-        
-        let params = [
-            PARAMS_ID : self.idTextField.text!,
-            PARAMS_CURSOR : String(CURSOR_VALUE),
-            PARAMS_COUNT : String(COUNT_VALUE),
-            PARAMS_ISWEB : String(1)
-        ]
-        
-        Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
-            
+        ScoreOperator.queryScoreById(self.idTextField.text!, page: 0) { scoreModel, msg -> () in
             LZWProgressHUD.hideHUD(delay: 0)
             
-            print(response)
-            
-            if response.result.error != nil {
+            if msg != "" {
                 
-                self.showWarning("获取信息出错！")
-                
-                return
-            }else if response.result.value?.objectForKey("status") as! NSInteger == NSInteger(200) {
-                
-                let scoreModel = ScoreModel(model: response.result.value!)
-                
-                self.performSegueWithIdentifier("showItems", sender: scoreModel)
-                
+                self.showWarning(msg)
             }else {
                 
-                self.showWarning((response.result.value?.objectForKey("body"))! as! String)
+                self.performSegueWithIdentifier("showItems", sender: scoreModel)
             }
         }
-
-        
     }
     
     // 显示出错信息

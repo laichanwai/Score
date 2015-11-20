@@ -21,4 +21,4 @@ let PARAMS_COUNT    =   "count"
 let PARAMS_ISWEB    =   "IsWeb"
 
 let CURSOR_VALUE    =   0
-let COUNT_VALUE     =   25
+let COUNT_VALUE     =   15

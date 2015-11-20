@@ -25,10 +25,12 @@ class ScoreModel: Reflect {
         
         level = model.objectForKey("level") as! NSInteger
         status = model.objectForKey("status") as! NSInteger
-        user = UserModel(model: model.objectForKey("user")!)
+        user = UserModel.shareUser()
+        user.setupWithModel(model.objectForKey("user")!)
+        if level > 0 {
+            user.isStudent = false
+        }
         datas = NSMutableArray()
-        
-        
         
         for data in model.objectForKey("datas") as! NSArray {
             

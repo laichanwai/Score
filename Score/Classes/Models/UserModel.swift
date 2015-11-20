@@ -16,11 +16,15 @@ class UserModel: Reflect {
     var classes: NSInteger?
     var college: NSInteger?
     
+    var isStudent: Bool!
     
-    required init() {
+    static var user: UserModel = UserModel()
+    class func shareUser() -> UserModel {
+    
+        return user
     }
     
-    init(model: AnyObject) {
+    func setupWithModel(model: AnyObject) {
         
         model as! NSDictionary
         
@@ -29,6 +33,8 @@ class UserModel: Reflect {
         grade = model.objectForKey("grade") as? NSInteger
         classes = model.objectForKey("classes") as? NSInteger
         college = model.objectForKey("college") as? NSInteger
+        
+        isStudent = true
     }
 
 }
