@@ -23,7 +23,6 @@ class ScoreOperator: NSObject {
         ]
         
         Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
-            
             var msg: String = ""
             var scoreModel: ScoreModel?
             if response.result.error != nil {

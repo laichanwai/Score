@@ -70,7 +70,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
         self.view.endEditing(true)
         
-        LZWProgressHUD.offset = CGPoint(x: 0, y: 250)
+        LZWProgressHUD.offset = CGPoint(x: 0, y: mainScreen.bounds.width >= 375 ? 260 : 200)
         LZWProgressHUD.showHUD()
         
         if self.warningView.hidden == false {

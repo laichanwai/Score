@@ -22,32 +22,33 @@ class ItemsTableViewController: UITableViewController {
         self.title = self.scoreModel?.user?.name
         self.items = NSMutableArray(array: (self.scoreModel?.datas)!)
         
-        // 计算总分
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
-            
-            var score = 0
-            for item in self.items! {
-                
-                score += (item as! ItemModel).score
-            }
-            
-            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                
-                let rightItem = UIBarButtonItem(title: "总分：\(score)", style: .Plain, target: nil, action: nil)
-                self.navigationItem.rightBarButtonItem = rightItem
-            })
-        }
-        
-        self.popupvc = DetailPopupViewController(nibName: "DetailPopupViewController", bundle: nil)
-        
         // 设置背景
         self.tableView.layer.contents = UIImage(named: "background")?.CGImage
+        
+        // 计算总分
+        if UserModel.shareUser().isStudent == true {
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { () -> Void in
+                
+                var score = 0
+                for item in self.items! {
+                    
+                    score += (item as! ItemModel).score
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    
+                    let rightItem = UIBarButtonItem(title: "总分：\(score)", style: .Plain, target: nil, action: nil)
+                    self.navigationItem.rightBarButtonItem = rightItem
+                })
+            }
+        }
         
         // 下拉刷新
         let header: MJRefreshNormalHeader = MJRefreshNormalHeader { () -> Void in
             
             self.queryScoreByAdd(false)
         }
+        header.stateLabel?.textColor = UIColor.whiteColor()
         self.tableView.header = header
         
         // 上拉刷新
@@ -57,6 +58,8 @@ class ItemsTableViewController: UITableViewController {
         }
         self.tableView.footer = footer
         
+        // 弹出的控制器
+        self.popupvc = DetailPopupViewController(nibName: "DetailPopupViewController", bundle: nil)
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -70,7 +73,8 @@ class ItemsTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARK: - UITableView DataSource
+    // MARK: - Delegate
+    // MARK: UITableView DataSource
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -98,11 +102,11 @@ class ItemsTableViewController: UITableViewController {
         cell.scoreLabel.text = "\(item.score)"
         cell.timeLabel.text = "\(item.createTime)"
         
-
+        cell.backgroundColor = UIColor.clearColor()
         return cell
     }
 
-    // MARK: - UITableView Delagate
+    // MARK: UITableView Delagate
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -132,6 +136,7 @@ class ItemsTableViewController: UITableViewController {
         }
     }
     
+    // MARK: Private Method
     private func queryScoreByAdd(isAdd: Bool) {
         
         if isAdd == true {

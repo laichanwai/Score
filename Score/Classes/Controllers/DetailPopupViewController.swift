@@ -30,6 +30,8 @@ class DetailPopupViewController: UIViewController, UITableViewDataSource, UITabl
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.frame.size = CGSizeMake(mainScreen.bounds.width * 0.75, mainScreen.bounds.height * 0.6)
+        tableView.separatorStyle = .None
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -91,7 +93,7 @@ class DetailPopupViewController: UIViewController, UITableViewDataSource, UITabl
             cell!.textLabel!.text = ""
             cell!.detailTextLabel!.text = ""
         }
-        
+        cell?.backgroundColor = UIColor.clearColor()
         return cell!
     }
     
