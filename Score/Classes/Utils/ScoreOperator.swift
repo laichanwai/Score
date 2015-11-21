@@ -9,7 +9,7 @@
 import UIKit
 import Alamofire
 
-typealias ScoreResult = (ScoreModel, String) -> ()
+typealias ScoreResult = (ScoreModel?, String) -> ()
 
 class ScoreOperator: NSObject {
     
@@ -25,6 +25,7 @@ class ScoreOperator: NSObject {
         Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
             
             var msg: String = ""
+            var scoreModel: ScoreModel?
             if response.result.error != nil {
                 
                 msg = "获取信息出错！"
@@ -32,9 +33,10 @@ class ScoreOperator: NSObject {
                 
                 msg = response.result.value!.objectForKey("body") as! String
                 
+            }else {
+                
+                scoreModel = ScoreModel(model: response.result.value!)
             }
-            
-            let scoreModel = ScoreModel(model: response.result.value!)
             
             result(scoreModel, msg)
         }

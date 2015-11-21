@@ -144,7 +144,7 @@ class ItemsTableViewController: UITableViewController {
         ScoreOperator.queryScoreById(String(UserModel.shareUser().id), page: self.page) { scoreModel, msg -> () in
             
             if msg.isEmpty {
-                self.items!.addObjectsFromArray(scoreModel.datas as [AnyObject])
+                self.items!.addObjectsFromArray(scoreModel!.datas as [AnyObject])
             }else {
                 
                 self.page--
