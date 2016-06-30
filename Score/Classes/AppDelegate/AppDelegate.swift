@@ -16,6 +16,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        PreTools.init("e52ceb6b09518fda89de16c1b1dc9c3a", channel: nil, config: PreToolsConfig.defaultConfig())
         return true
     }
 

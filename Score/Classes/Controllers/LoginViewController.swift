@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import Alamofire
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
     
@@ -27,12 +26,16 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
+        let username: String? = NSUserDefaults.standardUserDefaults().valueForKey(SCORE_USERNAME) as? String
+        let password: String? = NSUserDefaults.standardUserDefaults().valueForKey(SCORE_PASSWORD) as? String
         
         // TextField
         self.idTextField.leftView = UIView(frame: CGRectMake(0, 0, 44, self.idTextField.H))
         self.idTextField.leftViewMode = .Always
+        self.idTextField.text = username
         self.pzwTextField.leftView = UIView(frame: CGRectMake(0, 0, 44, self.idTextField.H))
         self.pzwTextField.leftViewMode = .Always
+        self.pzwTextField.text = password
         
         let profileIcon = UIImageView(image: UIImage(named: "icon_profile"))
         profileIcon.frame = CGRectMake(12, 10, 19, 20)
@@ -116,6 +119,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             
             return
         }
+        
+        NSUserDefaults.standardUserDefaults().setValue(self.idTextField.text, forKey: SCORE_USERNAME)
+        NSUserDefaults.standardUserDefaults().setValue(self.pzwTextField.text, forKey: SCORE_PASSWORD)
         
         ScoreOperator.queryScoreById(self.idTextField.text!, page: 0) { scoreModel, msg -> () in
             LZWProgressHUD.hideHUD(delay: 0)
