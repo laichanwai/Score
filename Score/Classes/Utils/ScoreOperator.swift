@@ -7,13 +7,13 @@
 //
 
 import UIKit
-import Alamofire
 
-typealias ScoreResult = (ScoreModel?, String) -> ()
+typealias Completion = (ScoreModel?, String) -> ()
 
 class ScoreOperator: NSObject {
     
-    class func queryScoreById(id: NSString, page: NSInteger, result: ScoreResult) {
+    
+    class func queryScoreById(id: NSString, page: NSInteger, result: Completion) {
         
         let params = [
             PARAMS_ID : id,
@@ -22,22 +22,25 @@ class ScoreOperator: NSObject {
             PARAMS_ISWEB : String(1)
         ]
         
-        Alamofire.request(.POST, APIURL, parameters: params).responseJSON { response in
+        Just.post(APIURL, params: params, timeout: 10) { response in
+            
             var msg: String = ""
             var scoreModel: ScoreModel?
-            if response.result.error != nil {
+            print(response.error)
+            if response.ok == false {
                 
-                msg = "获取信息出错！"
-            }else if response.result.value!.objectForKey("status") as! NSInteger != NSInteger(200) {
+                msg = "连接服务器失败!"
+            }else if response.json!.objectForKey("status") as! NSInteger != NSInteger(200) {
                 
-                msg = response.result.value!.objectForKey("body") as! String
-                
+                msg = response.json!.objectForKey("body") as! String
             }else {
                 
-                scoreModel = ScoreModel(model: response.result.value!)
+                scoreModel = ScoreModel(model: response.json!)
             }
-            
-            result(scoreModel, msg)
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                
+                result(scoreModel, msg)
+            })
         }
     }
 }
